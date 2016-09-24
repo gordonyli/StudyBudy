@@ -88,6 +88,24 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
 app.get('/', function(req, res){
   res.render('index', { user: req.user });
 });
@@ -111,6 +129,20 @@ app.get('/logout', function(req, res){
 });
 
 
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login')
@@ -122,49 +154,6 @@ app.listen(8000);
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-//app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', routes);
-app.use('/users', users);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
-
-
 module.exports = app;
 
 var Twitter = require('twitter-node-client').Twitter;
@@ -174,7 +163,9 @@ var error = function (err, response, body) {
   console.log('ERROR [%s]', err);
 };
 var success = function (data) {
-  console.log('Data [%s]', data);
+  //console.log('Data [%s]', data);
+    var text = JSON.parse(data);
+    console.log(text.statuses[1].id);
 };
 
 //Get this data from your twitter apps dashboard
@@ -186,17 +177,6 @@ var tokens = {
   "callBackUrl": "http://www.facebook.com/l.php?u=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ftwitter%2Fcallback&h=qAQHlGevN"
 };
 
-// make a directory in the root folder of your project called data
-// copy the node_modules/twitter-node-client/twitter_config file over into data/twitter_config`
-// Open `data/twitter_config` and supply your applications `consumerKey`, 'consumerSecret', 'accessToken', 'accessTokenSecret', 'callBackUrl' to the appropriate fields in your data/twitter_config file
-
 var twitter = new Twitter(tokens);
 
-//Example calls
-
-//
-// Get 10 tweets containing the hashtag haiku
-//
-
-twitter.getSearch({'q':'#haiku','count': 10}, error, success);
-
+twitter.getSearch({'q':'#haiku','count': 2}, error, success);
