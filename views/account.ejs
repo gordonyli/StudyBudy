@@ -17,10 +17,10 @@
         <p>Name :<%= user.displayName %></p>
         <p>Photos :<img src=<%= user.photos[0].value %>></p>
     </div>
-    <!--<form ng-submit="searchClass()">-->
-        <!--<input type="text" ng-model="className.name" placeholder="Enter desc" />-->
-        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
-    <!--</form>-->
+    <form ng-submit="searchClass()">
+        <input type="text" ng-model="className.name" placeholder="Enter desc" />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
     <div ng-repeat="id in ids">
         <amp-twitter width="375"
                      height="472"
@@ -28,6 +28,7 @@
                      data-tweetid="{{id}}">
         </amp-twitter>
     </div>
+    List of IDs: {{ids}}
 
 </body>
 </html>

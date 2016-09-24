@@ -15,6 +15,8 @@ var path = require('path');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var reload = require('reload')
+
 
 var accessToken;
 var accessTokenSecret;
@@ -81,16 +83,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-
-// app.use('/', routes);
-// app.use('/users', users);
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//     var err = new Error('Not Found');
-//     err.status = 404;
-//     next(err);
-// });
-
 app.get('/', function(req, res){
     res.render('index', { user: req.user });
 });
@@ -122,11 +114,12 @@ function ensureAuthenticated(req, res, next) {
 app.listen(3000);
 
 var Twitter = require('twitter-node-client').Twitter;
-var ids = [];
 //Callback functions
 var error = function (err, response, body) {
   console.log('ERROR [%s]', err);
 };
+
+var ids = [];
 var success = function (data) {
   //console.log('Data [%s]', data);
   var text = JSON.parse(data);
@@ -155,14 +148,14 @@ var tokens = {
 var twitter = new Twitter(tokens);
 
 var count = 30;
-var classname = "";
+var classname = "Georgia Tech";
 
 
 app.post('/className', function (req, res) {
-    classname = JSON.stringify(req.body.name);
-    console.log(classname);
-    twitter.getSearch({'q': classname, 'count': count}, error, success)
-
+    twitter.getSearch({'q': req.body.name, 'count': count}, error, success);
+    console.log("Got search");
+    res.send('/account');
+    ids = [];
     res.end();
 });
 

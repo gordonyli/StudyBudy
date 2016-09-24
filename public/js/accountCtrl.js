@@ -4,14 +4,12 @@ myApp.controller('accountCtrl', function($scope, $http) {
     $scope.test = "hello";
     $scope.ids = [];
     $scope.urlids=[];
+
     $http({
         method: 'GET',
         url: '/ids'
     }).then(function success(response) {
         $scope.ids = response.data;
-        for(var i = 0; i < $scope.ids.length; i++) {
-            $scope.ids[i] = $scope.ids[i];
-        }
     }, function error(response) {
         console.log(response);
     });
@@ -26,7 +24,11 @@ myApp.controller('accountCtrl', function($scope, $http) {
             console.log("posted successfully");
         }).error(function(data) {
             console.error("error in posting");
-        })
-    }
+        });
+        console.log("Ids1: " + $scope.ids);
+        location.reload();
+        console.log("Ids2: " + $scope.ids);
+        console.log("Loaded");
+c    }
 
 });
