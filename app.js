@@ -129,7 +129,7 @@ var error = function (err, response, body) {
 var success = function (data) {
   //console.log('Data [%s]', data);
   var text = JSON.parse(data);
-  console.log(text.statuses[1].id);
+  console.log(text.statuses[1].id_str);
   var i = 0;
   while(text.statuses[i] != undefined) {
     ids.push(text.statuses[i].id);
