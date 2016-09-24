@@ -16,21 +16,6 @@ myApp.controller('indexCtrl', function($scope, $http) {
         console.log(response);
     });
     $scope.testfunc = function() {
-        console.log(typeof $scope.ids[1]);
+        console.log($scope.ids);
     };
-
-    // $scope.testURLfunc = function() {
-    //     for(var i =0; i < ids.length; i++) {
-    //         $http({
-    //             method: 'GET',
-    //             url: '/https://api.twitter.com/1.1/statuses/show.json?id=' + ids[i]
-    //         }).then(function success(response) {
-    //             var myElement = "<div>"
-    //             angular.element(document.body).append(myElement);
-    //
-    //         }, function error(response) {
-    //             console.log(response);
-    //         });
-    //     }
-    // }
 });

@@ -102,7 +102,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 
 app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', { successRedirect : '/', failureRedirect: '/login' }),
+    passport.authenticate('twitter', { successRedirect : '/account', failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/');
     });
@@ -132,7 +132,7 @@ var success = function (data) {
   console.log(text.statuses[1].id);
   var i = 0;
   while(text.statuses[i] != undefined) {
-    ids.push(text.statuses[i].id.toString());
+    ids.push(text.statuses[i].id_str);
     i++;
   }
   console.log(ids);
@@ -153,4 +153,4 @@ var tokens = {
 
 var twitter = new Twitter(tokens);
 
-twitter.getSearch({'q':'#haiku','count': 30}, error, success);
+twitter.getSearch({'q':'#fuckdonaldtrump','count': 30}, error, success);
