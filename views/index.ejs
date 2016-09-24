@@ -27,4 +27,25 @@
 		</amp-twitter>
 	</div>
 </body>
+<html ng-app="loginApp">
+    <head>
+        <link rel="canonical" href="amps.html" >
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+        <script src="/js/loginCtrl.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+    </head>
+    <body ng-controller="loginCtrl">
+        <div id = "userInfo">
+            <% if (!user) { %>
+            <h2>Welcome! Please log in.</h2>
+            <a href="/auth/twitter"><img src="sign-in-with-twitter-l.png" width="151" height="24"></a>
+            <% } else { %>
+            <h2>Hello, <%= user.username %>.</h2>
+            <% } %>
+        </div>
+        <!--<form ng-submit="searchClass()">-->
+            <!--<input type="text" ng-model="className.name" placeholder="Enter desc" />-->
+            <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+        <!--</form>-->
+    </body>
 </html>

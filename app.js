@@ -15,6 +15,8 @@ var path = require('path');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var reload = require('reload')
+
 
 var accessToken;
 var accessTokenSecret;
@@ -25,6 +27,7 @@ var connection = mysql.createConnection({
   password : config.password,
   database : config.database
 });
+var Sync = require('sync');
 
 if(config.use_database==='true')
 {
@@ -80,16 +83,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-
-// app.use('/', routes);
-// app.use('/users', users);
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//     var err = new Error('Not Found');
-//     err.status = 404;
-//     next(err);
-// });
-
 app.get('/', function(req, res){
     res.render('index', { user: req.user });
 });
@@ -102,7 +95,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 
 app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', { successRedirect : '/', failureRedirect: '/login' }),
+    passport.authenticate('twitter', { successRedirect : '/account', failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/');
     });
@@ -121,21 +114,23 @@ function ensureAuthenticated(req, res, next) {
 app.listen(3000);
 
 var Twitter = require('twitter-node-client').Twitter;
-var ids = [];
 //Callback functions
 var error = function (err, response, body) {
   console.log('ERROR [%s]', err);
 };
+
+var ids = [];
 var success = function (data) {
   //console.log('Data [%s]', data);
   var text = JSON.parse(data);
   console.log(text.statuses[1].id_str);
+  // console.log(text.statuses[1].id);
   var i = 0;
   while(text.statuses[i] != undefined) {
-    ids.push(text.statuses[i].id);
+    ids.push(text.statuses[i].id_str);
     i++;
   }
-  console.log(ids);
+  // console.log(ids);
 };
 
 app.get('/ids',function(req, res){
@@ -153,4 +148,22 @@ var tokens = {
 
 var twitter = new Twitter(tokens);
 
-twitter.getSearch({'q':'#haiku','count': 30}, error, success);
+var count = 30;
+var classname = "Georgia Tech";
+
+
+app.post('/className', function (req, res) {
+    twitter.getSearch({'q': req.body.name, 'count': count}, error, success);
+    console.log("Got search");
+    res.send('/account');
+    ids = [];
+    res.end();
+});
+
+
+
+
+
+
+
+

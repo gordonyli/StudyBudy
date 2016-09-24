@@ -11,6 +11,10 @@
     "mysql": "2.4.3",
     "passport": "0.2.1",
     "passport-twitter": "1.0.2",
+    "sync": "^0.2.5",
     "twitter-node-client": "0.0.6"
+  },
+  "devDependencies": {
+    "reload": "^1.0.1"
   }
 }
