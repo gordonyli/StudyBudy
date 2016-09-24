@@ -129,10 +129,26 @@ var error = function (err, response, body) {
 var success = function (data) {
   //console.log('Data [%s]', data);
   var text = JSON.parse(data);
-  console.log(text.statuses[1].id);
+  //console.log(text.statuses[1]);
+  var duplicateChecker = [];
   var i = 0;
-  while(text.statuses[i] != undefined) {
-    ids.push(text.statuses[i].id_str);
+  console.log(text);
+  while (text.statuses[i] != undefined) {
+    if (!(text.statuses[i].hasOwnProperty('retweeted_status'))){// && duplicateChecker.indexOf(text.)) {
+      ids.push(text.statuses[i].id_str);
+      console.log("not retweeted");
+    } else {
+      console.log("retweeted");
+    }
+    // try {
+    //   text.retweeted_status[i];
+    //   ids.push(text.statuses[i].id_str);
+    //   console.log("hi");
+    // }
+    // catch(err) {
+    //   console.log("this is a retweet");
+    // }
+    //ids.push(text.statuses[i].id_str);
     i++;
   }
   console.log(ids);
@@ -153,4 +169,4 @@ var tokens = {
 
 var twitter = new Twitter(tokens);
 
-twitter.getSearch({'q':'#fuckdonaldtrump','count': 30}, error, success);
+twitter.getSearch({'q':'#saturday','count': 30}, error, success);
