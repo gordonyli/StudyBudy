@@ -131,25 +131,25 @@ var success = function (data) {
   var text = JSON.parse(data);
   //console.log(text.statuses[1]);
   var duplicateChecker = [];
+
   var i = 0;
   console.log(text);
   while (text.statuses[i] != undefined) {
-    if (!(text.statuses[i].hasOwnProperty('retweeted_status')) && duplicateChecker.indexOf(text.statuses[i].id_str) < 0) {
+    var tot = new Date(text.statuses[i].created_at);
+    var ct = new Date();
+    var totMonth = tot.getMonth();
+    var totYear = tot.getYear();
+    var ctMonth = ct.getMonth();
+    var ctYear = ct.getYear();
+    if (!(text.statuses[i].hasOwnProperty('retweeted_status')) && duplicateChecker.indexOf(text.statuses[i].id_str) < 0
+        && (Math.abs(totMonth - ctMonth) <= 6) && (totYear - ctYear == 0)) {
       ids.push(text.statuses[i].id_str);
       duplicateChecker.push(text.statuses[i].id_str);
       console.log("not retweeted");
+      console.log(totMonth);
     } else {
       console.log("retweeted");
     }
-    // try {
-    //   text.retweeted_status[i];
-    //   ids.push(text.statuses[i].id_str);
-    //   console.log("hi");
-    // }
-    // catch(err) {
-    //   console.log("this is a retweet");
-    // }
-    //ids.push(text.statuses[i].id_str);
     i++;
   }
   console.log(ids);
