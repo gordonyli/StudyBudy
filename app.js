@@ -132,7 +132,7 @@ var success = function (data) {
   console.log(text.statuses[1].id);
   var i = 0;
   while(text.statuses[i] != undefined) {
-    ids.push(text.statuses[i].id);
+    ids.push(text.statuses[i].id.toString());
     i++;
   }
   console.log(ids);
