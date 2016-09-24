@@ -56,6 +56,8 @@ passport.use(new TwitterStrategy({
           else
             {
               console.log("User already exists in database");
+              console.log(token);
+              console.log(tokenSecret);
             }
           });
       }
@@ -86,7 +88,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 
 app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { successRedirect : '/', failureRedirect: '/login' }),
+  passport.authenticate('twitter', { successRedirect : '/account', failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
