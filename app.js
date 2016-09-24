@@ -134,8 +134,9 @@ var success = function (data) {
   var i = 0;
   console.log(text);
   while (text.statuses[i] != undefined) {
-    if (!(text.statuses[i].hasOwnProperty('retweeted_status'))){// && duplicateChecker.indexOf(text.)) {
+    if (!(text.statuses[i].hasOwnProperty('retweeted_status')) && duplicateChecker.indexOf(text.statuses[i].id_str) < 0) {
       ids.push(text.statuses[i].id_str);
+      duplicateChecker.push(text.statuses[i].id_str);
       console.log("not retweeted");
     } else {
       console.log("retweeted");
