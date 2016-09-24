@@ -25,6 +25,7 @@ var connection = mysql.createConnection({
   password : config.password,
   database : config.database
 });
+var Sync = require('sync');
 
 if(config.use_database==='true')
 {
@@ -129,13 +130,13 @@ var error = function (err, response, body) {
 var success = function (data) {
   //console.log('Data [%s]', data);
   var text = JSON.parse(data);
-  console.log(text.statuses[1].id);
+  // console.log(text.statuses[1].id);
   var i = 0;
   while(text.statuses[i] != undefined) {
     ids.push(text.statuses[i].id_str);
     i++;
   }
-  console.log(ids);
+  // console.log(ids);
 };
 
 app.get('/ids',function(req, res){
@@ -153,4 +154,22 @@ var tokens = {
 
 var twitter = new Twitter(tokens);
 
-twitter.getSearch({'q':'#fuckdonaldtrump','count': 30}, error, success);
+var count = 30;
+var classname = "";
+
+
+app.post('/className', function (req, res) {
+    classname = JSON.stringify(req.body.name);
+    console.log(classname);
+    twitter.getSearch({'q': classname, 'count': count}, error, success)
+
+    res.end();
+});
+
+
+
+
+
+
+
+

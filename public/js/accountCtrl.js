@@ -1,6 +1,6 @@
 var myApp = angular.module('myApp', []);
 
-myApp.controller('indexCtrl', function($scope, $http) {
+myApp.controller('accountCtrl', function($scope, $http) {
     $scope.test = "hello";
     $scope.ids = [];
     $scope.urlids=[];
@@ -16,6 +16,17 @@ myApp.controller('indexCtrl', function($scope, $http) {
         console.log(response);
     });
     $scope.testfunc = function() {
-        console.log($scope.ids);
+        console.log("hello");
     };
+
+    $scope.searchClass = function() {
+        console.log('in searchclass');
+        $http.post('/className',$scope.className).
+        success(function(data) {
+            console.log("posted successfully");
+        }).error(function(data) {
+            console.error("error in posting");
+        })
+    }
+
 });
