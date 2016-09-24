@@ -19,7 +19,6 @@ var users = require('./routes/users');
 var accessToken;
 var accessTokenSecret;
 
-//Define MySQL parameter in Config.js file.
 var connection = mysql.createConnection({
   host     : config.host,
   user     : config.username,
@@ -27,14 +26,11 @@ var connection = mysql.createConnection({
   database : config.database
 });
 
-//Connect to Database only if Config.js parameter is set.
-
 if(config.use_database==='true')
 {
     connection.connect();
 }
 
-// Passport session setup.
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -43,9 +39,6 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-
-// Use the TwitterStrategy within Passport.
-
 passport.use(new TwitterStrategy({
     consumerKey: config.twitter_api_key,
     consumerSecret:config.twitter_api_secret ,
@@ -53,7 +46,6 @@ passport.use(new TwitterStrategy({
   },
   function(token, tokenSecret, profile, done) {
     process.nextTick(function () {
-      //Check whether the User exists or not using profile.id
       accessToken = token;
       accessTokenSecret = tokenSecret;
       /*if(config.use_database==='true')
@@ -87,85 +79,63 @@ app.use(session({ secret: 'keyboard cat', key: 'sid'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-//app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
-
+// app.use('/', routes);
+// app.use('/users', users);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+// app.use(function(req, res, next) {
+//     var err = new Error('Not Found');
+//     err.status = 404;
+//     next(err);
+// });
 
 app.get('/', function(req, res){
-  res.render('index', { user: req.user });
+    res.render('index', { user: req.user });
 });
 
 app.get('/account', ensureAuthenticated, function(req, res){
-  res.render('account', { user: req.user });
+    res.render('account', { user: req.user });
 });
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
 
 app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { successRedirect : '/account', failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+    passport.authenticate('twitter', { successRedirect : '/', failureRedirect: '/login' }),
+    function(req, res) {
+        res.redirect('/');
+    });
 
 app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
+    req.logout();
+    res.redirect('/');
 });
 
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+    if (req.isAuthenticated()) { return next(); }
+    res.redirect('/login')
 }
 
-app.listen(8000);
-
-// view engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-
-module.exports = app;
+app.listen(3000);
 
 var Twitter = require('twitter-node-client').Twitter;
-
+var ids = [];
 //Callback functions
 var error = function (err, response, body) {
   console.log('ERROR [%s]', err);
 };
 var success = function (data) {
   //console.log('Data [%s]', data);
-    var text = JSON.parse(data);
-    console.log(text.statuses[1].id);
+  var text = JSON.parse(data);
+  console.log(text.statuses[1].id);
+  var i = 0;
+  while(text.statuses[i] != undefined) {
+    ids.push(text.statuses[i].id);
+    i++;
+  }
+  console.log(ids);
 };
 
 //Get this data from your twitter apps dashboard
@@ -179,4 +149,4 @@ var tokens = {
 
 var twitter = new Twitter(tokens);
 
-twitter.getSearch({'q':'#haiku','count': 2}, error, success);
+twitter.getSearch({'q':'#haiku','count': 30}, error, success);
