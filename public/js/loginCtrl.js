@@ -1,12 +1,6 @@
 var myApp = angular.module('loginApp', []);
 
 myApp.controller('loginCtrl', function($scope, $http) {
-    $scope.test = "hello";
-
-    $scope.testfunc = function() {
-        console.log("hello");
-    };
-
     $scope.searchClass = function() {
         console.log('in searchclass');
         $http.post('/className',$scope.className).

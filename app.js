@@ -86,26 +86,19 @@ app.use(bodyParser.json());
 app.get('/', function(req, res){
     res.render('index', { user: req.user });
 });
-
 app.get('/account', ensureAuthenticated, function(req, res){
     res.render('account', { user: req.user });
 });
-
 app.get('/auth/twitter', passport.authenticate('twitter'));
-
-
 app.get('/auth/twitter/callback',
     passport.authenticate('twitter', { successRedirect : '/account', failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/');
     });
-
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
 });
-
-
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
     res.redirect('/login')
@@ -121,22 +114,19 @@ var error = function (err, response, body) {
 
 var ids = [];
 var success = function (data) {
-  //console.log('Data [%s]', data);
   var text = JSON.parse(data);
-  // console.log(text.statuses[1].id);
+  console.log(text.statuses[1].id_str);
   var i = 0;
   while(text.statuses[i] != undefined) {
     ids.push(text.statuses[i].id_str);
     i++;
   }
-  // console.log(ids);
 };
 
 app.get('/ids',function(req, res){
     res.send(ids);
 });
 
-//Get this data from your twitter apps dashboard
 var tokens = {
   "consumerKey": "kYHSEtFujG3ybYHFyMoKziNeY",
   "consumerSecret": "7BtdOfoY5TylNiK53vL7R0DNHDNcXrYHX9sLDc5L4EiQ3sIaP5",
