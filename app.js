@@ -138,6 +138,10 @@ var success = function (data) {
   console.log(ids);
 };
 
+app.get('/ids',function(req, res){
+    res.send(ids);
+});
+
 //Get this data from your twitter apps dashboard
 var tokens = {
   "consumerKey": "kYHSEtFujG3ybYHFyMoKziNeY",
