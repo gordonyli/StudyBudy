@@ -142,7 +142,7 @@ var success = function (data) {
     var ctMonth = ct.getMonth();
     var ctYear = ct.getYear();
     if (!(text.statuses[i].hasOwnProperty('retweeted_status')) && duplicateChecker.indexOf(text.statuses[i].id_str) < 0
-        && (Math.abs(totMonth - ctMonth) <= 6) && (totYear - ctYear == 0)) {
+        && ((ctMonth - totMonth) <= 5 && (ctMonth - totMonth) >= 0) && (totYear - ctYear == 0)) {
       ids.push(text.statuses[i].id_str);
       duplicateChecker.push(text.statuses[i].id_str);
       console.log("not retweeted");
