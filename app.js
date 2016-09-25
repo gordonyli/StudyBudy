@@ -111,13 +111,9 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/account')
 }
 
-app.listen(8000);
+app.listen(3000);
 
 var Twitter = require('twitter-node-client').Twitter;
-//Callback functions
-var error = function (err, response, body) {
-  console.log('ERROR [%s]', err);
-};
 
 var ids = [];
 var success = function (data) {
