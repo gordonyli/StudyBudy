@@ -111,7 +111,7 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/account')
 }
 
-app.listen(3000);
+app.listen(8000);
 
 var Twitter = require('twitter-node-client').Twitter;
 //Callback functions
@@ -168,19 +168,18 @@ var tokens = {
   "consumerSecret": "7BtdOfoY5TylNiK53vL7R0DNHDNcXrYHX9sLDc5L4EiQ3sIaP5",
   "accessToken": accessToken,
   "accessTokenSecret": accessTokenSecret,
-  "callBackUrl": "http://www.facebook.com/l.php?u=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ftwitter%2Fcallback&h=qAQHlGevN"
+  "callBackUrl": "http://www.facebook.com/l.php?u=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Ftwitter%2Fcallback&h=qAQHlGevN"
 };
 
 var twitter = new Twitter(tokens);
 
 var count = 30;
-var classname = "Georgia Tech";
 
 
 app.get('/className', function (req, res) {
     twitter.getSearch({'q': req.body.name, 'count': count}, error, success);
     console.log("Got search");
-    res.redirect("account.ejs");
+    res.redirect("/account");
     res.end();
 });
 

@@ -1,6 +1,6 @@
 var myApp = angular.module('searchApp', []);
 
-myApp.controller('searchCtrl', function($scope, $http. $location) {
+myApp.controller('searchCtrl', function($scope, $http) {
     $http({
         method: 'GET',
         url: '/ids'
@@ -24,7 +24,6 @@ myApp.controller('searchCtrl', function($scope, $http. $location) {
         console.log("Ids1: " + $scope.ids);
         console.log("Ids2: " + $scope.ids);
         console.log("Loaded");
-        $location.path('/account');
     }
 
 });
