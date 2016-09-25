@@ -127,15 +127,14 @@ var success = function (data) {
     var text = JSON.parse(data);
     var i = 0;
     while (text.statuses[i] != undefined) {
-        console.log(text.statuses[i].id_str);
-        if (!(text.statuses[i].hasOwnProperty('retweeted_status'))) {
-            ids.push(text.statuses[i].id_str);
-        }
+        console.log("success id: " + text.statuses[i].id_str);
+        ids.push(text.statuses[i].id_str);
         i++;
     }
 };
 
 app.get('/ids',function(req, res){
+    console.log('get id');
     res.send(ids);
 });
 
@@ -153,11 +152,12 @@ var count = 3;
 var classname = "Georgia Tech";
 
 
-app.get('/className', function (req, res) {
-    twitter.getSearch({'q': "#haiku", 'count': count}, error, success);
-    console.log(ids);
+app.post('/className', function (req, res) {
+    ids = [];
+    twitter.getSearch({'q': req.body.name, 'count': count}, error, success);
+    console.log("ids = " + ids);
+    console.log("input = " + req.body.name);
     console.log("Got search");
-    res.redirect("/account");
 });
 
 

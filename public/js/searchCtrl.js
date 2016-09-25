@@ -1,6 +1,6 @@
 var myApp = angular.module('searchApp', ['angular-simple-sidebar']);
 
-myApp.controller('searchCtrl', function($scope, $http) {
+myApp.controller('searchCtrl', function($scope, $http, $location) {
     $scope.ids = [];
     $scope.state = false;
     $scope.menuTitle = "menu";
@@ -35,12 +35,16 @@ myApp.controller('searchCtrl', function($scope, $http) {
 
     $scope.searchClass = function() {
         console.log('in searchclass');
-        $http.get('/className', $scope.className).
+        $http.post('/className', $scope.className).
         success(function(data) {
+            console.log($scope.className);
             console.log("posted successfully");
         }).error(function(data) {
+            console.log($scope.className);
+
             console.error("error in posting");
         });
+        window.location = "/account";
     }
 
 });
