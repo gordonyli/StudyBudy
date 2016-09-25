@@ -21,18 +21,17 @@ var reload = require('reload')
 var accessToken;
 var accessTokenSecret;
 
-var connection = mysql.createConnection({
-  host     : config.host,
-  user     : config.username,
-  password : config.password,
-  database : config.database
-});
-var Sync = require('sync');
-
-if(config.use_database==='true')
-{
-    connection.connect();
-}
+// var connection = mysql.createConnection({
+//   host     : config.host,
+//   user     : config.username,
+//   password : config.password,
+//   database : config.database
+// });
+//
+// if(config.use_database==='true')
+// {
+//     connection.connect();
+// }
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -83,25 +82,33 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
+
 app.get('/', function(req, res){
     res.render('index', { user: req.user });
 });
+
+app.get('/search', function(req, res){
+    res.render('search', { user: req.user });
+});
+
 app.get('/account', ensureAuthenticated, function(req, res){
     res.render('account', { user: req.user });
 });
+
 app.get('/auth/twitter', passport.authenticate('twitter'));
+
 app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', { successRedirect : '/account', failureRedirect: '/login' }),
+    passport.authenticate('twitter', { successRedirect : '/search', failureRedirect: '/' }),
     function(req, res) {
         res.redirect('/');
     });
-app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-});
+// app.get('/logout', function(req, res){
+//     req.logout();
+//     res.redirect('/');
+// });
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login')
+    res.redirect('/account')
 }
 
 app.listen(3000);
@@ -113,46 +120,44 @@ var error = function (err, response, body) {
 };
 
 var ids = [];
-// var success = function (data) {
-//   var text = JSON.parse(data);
-//
-//
-//   console.log(text.statuses[1].id_str);
-//   var i = 0;
-//   while(text.statuses[i] != undefined) {
-//     ids.push(text.statuses[i].id_str);
-//     i++;
-//   }
-// };
-
 var success = function (data) {
-    //console.log('Data [%s]', data);
-    var text = JSON.parse(data);
-    //console.log(text.statuses[1]);
-    var duplicateChecker = [];
-
-    var i = 0;
-    console.log(text);
-    while (text.statuses[i] != undefined) {
-        var tot = new Date(text.statuses[i].created_at);
-        var ct = new Date();
-        var totMonth = tot.getMonth();
-        var totYear = tot.getYear();
-        var ctMonth = ct.getMonth();
-        var ctYear = ct.getYear();
-        if (!(text.statuses[i].hasOwnProperty('retweeted_status')) && duplicateChecker.indexOf(text.statuses[i].id_str) < 0
-            && ((ctMonth - totMonth) <= 5 && (ctMonth - totMonth) >= 0) && (totYear - ctYear == 0)) {
-            ids.push(text.statuses[i].id_str);
-            duplicateChecker.push(text.statuses[i].id_str);
-            console.log("not retweeted");
-            console.log(totMonth);
-        } else {
-            console.log("retweeted");
-        }
-        i++;
-    }
-    console.log(ids);
+  var text = JSON.parse(data);
+  console.log(text.statuses[1].id_str);
+  var i = 0;
+  while(text.statuses[i] != undefined) {
+    ids.push(text.statuses[i].id_str);
+    i++;
+  }
 };
+
+// var success = function (data) {
+//     //console.log('Data [%s]', data);
+//     var text = JSON.parse(data);
+//     //console.log(text.statuses[1]);
+//     var duplicateChecker = [];
+//
+//     var i = 0;
+//     console.log(text);
+//     while (text.statuses[i] != undefined) {
+//         var tot = new Date(text.statuses[i].created_at);
+//         var ct = new Date();
+//         var totMonth = tot.getMonth();
+//         var totYear = tot.getYear();
+//         var ctMonth = ct.getMonth();
+//         var ctYear = ct.getYear();
+//         if (!(text.statuses[i].hasOwnProperty('retweeted_status')) && duplicateChecker.indexOf(text.statuses[i].id_str) < 0
+//             && ((ctMonth - totMonth) <= 5 && (ctMonth - totMonth) >= 0) && (totYear - ctYear == 0)) {
+//             ids.push(text.statuses[i].id_str);
+//             duplicateChecker.push(text.statuses[i].id_str);
+//             console.log("not retweeted");
+//             console.log(totMonth);
+//         } else {
+//             console.log("retweeted");
+//         }
+//         i++;
+//     }
+//     console.log(ids);
+// };
 
 app.get('/ids',function(req, res){
     res.send(ids);
@@ -172,11 +177,10 @@ var count = 30;
 var classname = "Georgia Tech";
 
 
-app.post('/className', function (req, res) {
+app.get('/className', function (req, res) {
     twitter.getSearch({'q': req.body.name, 'count': count}, error, success);
     console.log("Got search");
-    res.send('/account');
-    ids = [];
+    res.redirect("account.ejs");
     res.end();
 });
 

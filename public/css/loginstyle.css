@@ -1,0 +1,17 @@
+body {
+    background: url("http://aspireblog.org/wp-content/uploads/2013/04/chalkboard.jpg") fixed;
+    background-size: cover;
+    margin-right: 200px;
+}
+
+.studybuddy {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    text-align: center;
+    margin-top: 20%;
+    font-size: 150px;
+}
+
+.btn-twitter {
+    margin-left:100% !important;
+}

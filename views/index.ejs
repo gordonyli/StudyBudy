@@ -3,16 +3,34 @@
         <link rel="canonical" href="amps.html" >
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
         <script src="/js/loginCtrl.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand|Raleway" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/css/loginstyle.css">
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap-social.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body ng-controller="loginCtrl">
-        <div id = "userInfo">
-            <% if (!user) { %>
-            <h2>Study Buddy</h2>
-            <a href="/auth/twitter"><img src="sign-in-with-twitter-l.png" width="151" height="24"></a>
-            <% } else { %>
-            <h2>Hello, <%= user.username %>.</h2>
-            <% } %>
+        <div class="container">
+            <div class="row">
+                <p class="studybuddy">STUDY BUDDY</p>
+                <div class="twitterWrap col-lg-4">
+                    <a href="/auth/twitter" class="btn btn-block btn-social btn-twitter">
+                        <span class="fa fa-twitter"></span> Sign in with Twitter
+                    </a>
+                </div>
+            </div>
         </div>
     </body>
 </html>
+
+
+
+
+
+
+
+<!--<% if (!user) { %>-->
+
+<!--<% } else { %>-->
+<!--<h2>Hello, <%= user.username %>.</h2>-->
+<!--<% } %>-->
