@@ -1,6 +1,29 @@
-var myApp = angular.module('searchApp', []);
+var myApp = angular.module('searchApp', ['angular-simple-sidebar']);
 
-myApp.controller('searchCtrl', function($scope, $http. $location) {
+myApp.controller('searchCtrl', function($scope, $http) {
+    $scope.ids = [];
+    $scope.state = false;
+    $scope.menuTitle = "menu";
+    $scope.settings = {
+        close: true,
+        closeIcon: "fa fa-times"
+    };
+    $scope.items = [
+        {
+            name: "first item",
+            link: "//google.com",
+            icon: "fa fa-google",
+            target: "_blank"
+        },
+        {
+            name: "second item",
+            link: "",
+            icon: "",
+            target: ""
+        }
+    ];
+    $scope.theme = 'white';
+
     $http({
         method: 'GET',
         url: '/ids'
@@ -9,9 +32,6 @@ myApp.controller('searchCtrl', function($scope, $http. $location) {
     }, function error(response) {
         console.log(response);
     });
-    $scope.testfunc = function() {
-        console.log("hello");
-    };
 
     $scope.searchClass = function() {
         console.log('in searchclass');
@@ -21,10 +41,6 @@ myApp.controller('searchCtrl', function($scope, $http. $location) {
         }).error(function(data) {
             console.error("error in posting");
         });
-        console.log("Ids1: " + $scope.ids);
-        console.log("Ids2: " + $scope.ids);
-        console.log("Loaded");
-        $location.path('/account');
     }
 
 });
