@@ -3,6 +3,9 @@
 	<link rel="canonical" href="amps.html" >
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <link rel="stylesheet" href="/angular-simple-sidebar/angular-simple-sidebar.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/searchStyle.css">
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
+
 	<script src="/angular-simple-sidebar/angular-simple-sidebar.min.js"></script>
 	<script src="/js/searchCtrl.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -21,9 +24,27 @@
         </div>
     </nav>
 
-	<form ng-submit="searchClass()">
-		<input type="text" ng-model="className.name" placeholder="Enter desc" />
-		<button type="submit" class="btn btn-primary">Submit</button>
-	</form>
+	<!--<form ng-submit="searchClass()">-->
+		<!--<input type="text" ng-model="className.name" placeholder="Enter desc" />-->
+		<!--<button type="submit" class="btn btn-primary">Submit</button>-->
+	<!--</form>-->
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h2>Find Your Study Buddies!</h2>
+				<div id="custom-search-input">
+					<div class="input-group col-md-12">
+						<input type="text" class="form-control input-lg" ng-model="className.name" placeholder="Enter a class to start!" />
+						<span class="input-group-btn">
+							<button class="btn btn-info btn-lg" type="submit" ng-click="searchClass()">
+								<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -2,7 +2,13 @@
 <head>
     <link rel="canonical" href="amps.html" >
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="/angular-route/angular-route.min.js"></script>
+    <link rel="stylesheet" href="/angular-simple-sidebar/angular-simple-sidebar.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/searchStyle.css">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
+
+    <script src="/angular-simple-sidebar/angular-simple-sidebar.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <script src="/js/accountCtrl.js"></script>
     <script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
@@ -10,10 +16,17 @@
 </head>
 
 <body ng-controller="accountCtrl">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <angular-simple-sidebar state="state" items="items" title=<%= user.displayName %> settings="settings"></angular-simple-sidebar>
+            </div>
+        </div>
+    </nav>
     <div id = "userInfo">
         <p>ID: <%= user.id %></p>
         <p>Username: <%= user.username %></p>
-        <p>Name :<%= user.displayName %></p>
+        <p>Name :</p>
         <p>Photos :<img src=<%= user.photos[0].value %>></p>
     </div>
     <div ng-repeat="id in ids">
@@ -23,8 +36,13 @@
                      data-tweetid="{{id}}">
         </amp-twitter>
     </div>
-    <button ng-click="test()">hello</button>
-    List of IDs: {{ids}}
+
+
+    <div class="form-group">
+        <label for="">With Bootstrap:</label>
+        <textarea class="form-control" rows="5" ng-model="newTweet.text"></textarea>
+        <button type="submit" class="btn btn-primary" ng-click="tweet()">Submit</button>
+    </div>
 
 </body>
 </html>

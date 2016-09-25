@@ -1,25 +1,25 @@
 var myApp = angular.module('searchApp', ['angular-simple-sidebar']);
 
-myApp.controller('searchCtrl', function($scope, $http, $location) {
+myApp.controller('searchCtrl', function($scope, $http) {
     $scope.ids = [];
     $scope.state = false;
-    $scope.menuTitle = "menu";
+    $scope.menuTitle = "Profile";
     $scope.settings = {
         close: true,
         closeIcon: "fa fa-times"
     };
     $scope.items = [
         {
-            name: "first item",
-            link: "//google.com",
-            icon: "fa fa-google",
+            name: "Book a Study Room",
+            link: "http://clough.gatech.edu/reserve.html",
+            icon: "fa fa-book",
             target: "_blank"
         },
         {
-            name: "second item",
-            link: "",
-            icon: "",
-            target: ""
+            name: "Request Tutoring",
+            link: "http://www.success.gatech.edu/tutoring-0",
+            icon: "fa fa-pencil",
+            target: "_blank"
         }
     ];
     $scope.theme = 'white';

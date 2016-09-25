@@ -1,0 +1,19 @@
+body {
+    background-color: #e4e4e4 !important;
+}
+
+.btn-lg {
+    height: 148% !important;
+}
+
+h2 {
+    font-family: 'Amatic SC', cursive !important;
+    color: white;
+    letter-spacing: 10px;
+    font-size: 200px;
+}
+
+.col-md-6 {
+    margin-left: 25% !important;
+    margin-top: 10% !important;
+}

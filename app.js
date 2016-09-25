@@ -127,15 +127,18 @@ var success = function (data) {
     var text = JSON.parse(data);
     var i = 0;
     while (text.statuses[i] != undefined) {
-        console.log("success id: " + text.statuses[i].id_str);
-        ids.push(text.statuses[i].id_str);
+        if(ids.indexOf(text.statuses[i].id_str < 0)) {
+            console.log("success id: " + text.statuses[i].id_str);
+            ids.push(text.statuses[i].id_str);
+        }
         i++;
     }
 };
 
 app.get('/ids',function(req, res){
-    console.log('get id');
+    console.log('get id : ' + ids);
     res.send(ids);
+    ids = [];
 });
 
 var tokens = {
@@ -160,6 +163,13 @@ app.post('/className', function (req, res) {
     console.log("Got search");
 });
 
+app.post('/newTweet', function(req, res) {
+    twitter.postTweet({'status': "laravel is beautiful"}, error, postSuccess);
+});
+
+var postSuccess = function() {
+    console.log('success in newTweet');
+}
 
 
 
