@@ -17,7 +17,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var reload = require('reload')
 
-
+var validClass = "";
 var accessToken;
 var accessTokenSecret;
 
@@ -113,7 +113,7 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/')
 }
 
-app.listen(3000);
+app.listen(4000);
 
 var Twitter = require('twitter-node-client').Twitter;
 //Callback functions
@@ -138,12 +138,15 @@ app.get('/ids',function(req, res){
     res.send(ids);
 });
 
+app.get('/validClass', function(req, res) {
+    res.send(validClass);
+});
 var tokens = {
   "consumerKey": "kYHSEtFujG3ybYHFyMoKziNeY",
   "consumerSecret": "7BtdOfoY5TylNiK53vL7R0DNHDNcXrYHX9sLDc5L4EiQ3sIaP5",
   "accessToken": accessToken,
   "accessTokenSecret": accessTokenSecret,
-  "callBackUrl": "http://www.facebook.com/l.php?u=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ftwitter%2Fcallback&h=qAQHlGevN"
+  "callBackUrl": "http://www.facebook.com/l.php?u=http%3A%2F%2Flocalhost%3A4000%2Fauth%2Ftwitter%2Fcallback&h=qAQHlGevN"
 };
 
 var twitter = new Twitter(tokens);
@@ -154,7 +157,15 @@ var classname = "Georgia Tech";
 
 app.post('/className', function (req, res) {
     ids = [];
-    twitter.getSearch({'q': req.body.name, 'count': count}, error, success);
+    if (req.body.name.match("[a-zA-Z]{2,4}[0-9]{4}")) {
+        validClass = "#sb_" + req.body.name;
+        twitter.getSearch({'q': validClass, 'count': count}, error, success);
+    } else {
+        validClass = "This is not a valid class format. Please enter in the following format: PSYC3040."
+        app.get('/nonMatchingClass', function(req, res) {
+            res.send(validClass);
+        });
+    }
     console.log("ids = " + ids);
     console.log("input = " + req.body.name);
     console.log("Got search");

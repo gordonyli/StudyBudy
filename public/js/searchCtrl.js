@@ -23,12 +23,22 @@ myApp.controller('searchCtrl', function($scope, $http, $location) {
         }
     ];
     $scope.theme = 'white';
+    $scope.nonMatchingClass = '';
 
     $http({
         method: 'GET',
         url: '/ids'
     }).then(function success(response) {
         $scope.ids = response.data;
+    }, function error(response) {
+        console.log(response);
+    });
+
+    $http({
+        method: 'GET',
+        url: '/nonMatchingClass'
+    }).then(function success(response) {
+        $scope.nonMatchingClass = response.data;
     }, function error(response) {
         console.log(response);
     });

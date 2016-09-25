@@ -5,6 +5,7 @@ myApp.controller('accountCtrl', function($scope, $http) {
         console.log($scope.id);
     };
     $scope.ids = [];
+    $scope.validClass = '';
 
     $http({
         method: 'GET',
@@ -16,6 +17,16 @@ myApp.controller('accountCtrl', function($scope, $http) {
     }, function error(response) {
         console.log(response);
     });
+
+    $http({
+        method: 'GET',
+        url: '/validClass'
+    }).then(function success(response) {
+        $scope.validClass = response.data;
+    }, function error(response) {
+        console.log("You suck");
+    });
+
 
 
 });
